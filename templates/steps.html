@@ -1,0 +1,806 @@
+<html>
+  <head>
+    <title>SonicSerenity - Simplified Therapy</title>
+    <link rel="icon" href="/static/images/just_logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/c148ce58db.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      .nav_ a { font-size: 16px; }
+      .step-container { 
+        max-width: 800px; 
+        margin: 0 auto; 
+        padding: 20px; 
+        text-align: center; 
+      }
+      .step { 
+        display: none; 
+        padding: 40px; 
+        background: #f8f9fa; 
+        border-radius: 10px; 
+        margin: 20px 0; 
+      }
+      .step.active { display: block; }
+      .step h2 { color: #29696e; margin-bottom: 20px; }
+      .step p { margin-bottom: 30px; font-size: 16px; }
+      .button { 
+        background-color: #29696e; 
+        color: white; 
+        padding: 15px 30px; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-size: 16px; 
+        margin: 10px; 
+      }
+      .button:hover { background-color: #238c94; }
+      .audio-option { 
+        display: inline-block; 
+        margin: 20px; 
+        padding: 20px; 
+        border: 2px solid #29696e; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        transition: all 0.3s; 
+      }
+      .audio-option:hover { background-color: #e6f2f3; }
+      .audio-option.selected { background-color: #29696e; color: white; }
+      .therapy-session { 
+        display: none; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100vw; 
+        height: 100vh; 
+        background: #000; 
+        z-index: 1000; 
+        overflow: hidden;
+      }
+      .therapy-session.active {
+        display: block;
+      }
+      .therapy-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+      }
+      .therapy-backdrop.active {
+        display: block;
+      }
+      .background-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        display: block;
+        min-width: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .session-controls { 
+        position: absolute; 
+        bottom: 20px; 
+        left: 20px; 
+        z-index: 1001; 
+        display: flex;
+        gap: 10px;
+      }
+      .therapy-audio {
+        display: none;
+      }
+      .loading { 
+        display: none; 
+        text-align: center; 
+        padding: 40px; 
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    
+    <!-- Loading Screen -->
+    <div id="loading" class="loading" style="display: none;">
+      <h2>Preparing your therapy session...</h2>
+      <p>Please wait while we set up your personalized experience.</p>
+    </div>
+    <!-- Simplified 3-Step Therapy Interface -->
+    <div class="step-container">
+      
+      <!-- Step 1: Audio Selection -->
+      <div id="step1" class="step active">
+        <h2>Step 1: Choose Your Therapeutic Audio</h2>
+        <p>Select from our curated collection of therapeutic sounds designed to promote emotional well-being.</p>
+        
+        <div class="audio-options">
+          <div class="audio-option" onclick="selectAudio('tibetan.wav')">
+            <i class="fa-solid fa-music" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>Tibetan Singing Bowls</h3>
+            <p>Ancient healing frequencies for deep relaxation</p>
+          </div>
+          
+          <div class="audio-option" onclick="selectAudio('om.wav')">
+            <i class="fa-solid fa-om" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>OM Chanting</h3>
+            <p>Sacred mantra for spiritual connection</p>
+          </div>
+          
+          <div class="audio-option" onclick="selectAudio('crystal.wav')">
+            <i class="fa-solid fa-gem" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>Crystal Bowls</h3>
+            <p>Pure crystal frequencies for deep healing</p>
+          </div>
+          
+          <div class="audio-option" onclick="selectAudio('marimba.wav')">
+            <i class="fa-solid fa-music" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>Marimba Melodies</h3>
+            <p>Gentle wooden tones for relaxation</p>
+          </div>
+          
+          <div class="audio-option" onclick="selectAudio('rain.wav')">
+            <i class="fa-solid fa-cloud-rain" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>Rain Sounds</h3>
+            <p>Natural rainfall for peaceful meditation</p>
+          </div>
+          
+          {% for audio_name in custom_audio %}
+          <div class="audio-option" onclick="selectAudio('{{ audio_name }}')">
+            <i class="fa-solid fa-upload" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <h3>{{ audio_name }}</h3>
+            <p>Your custom therapeutic audio</p>
+          </div>
+          {% endfor %}
+        </div>
+        
+        <button class="button" onclick="proceedToStep2()" id="nextBtn1" disabled>Continue to Step 2</button>
+      </div>
+      
+      <!-- Step 2: Camera Setup -->
+      <div id="step2" class="step">
+        <h2>Step 2: Enable Camera for Emotion Detection</h2>
+        <p>Allow camera access so our AI can detect your emotions and personalize your therapy session.</p>
+        
+        <div style="margin: 30px 0;">
+          <i class="fa-solid fa-camera" style="font-size: 48px; color: #29696e; margin-bottom: 20px;"></i>
+          <p><strong>Your privacy is protected:</strong> All emotion detection happens locally and no video is stored.</p>
+        </div>
+        
+        <button class="button" onclick="enableCamera()">Enable Camera</button>
+        <button class="button" onclick="proceedToStep3()" id="nextBtn2" disabled>Continue to Step 3</button>
+      </div>
+      
+      <!-- Step 3: Therapy Session -->
+      <div id="step3" class="step">
+        <h2>Step 3: Begin Your Therapy Session</h2>
+        <p>You're all set! Click below to start your personalized therapy session.</p>
+        
+        <div style="margin: 30px 0;">
+          <i class="fa-solid fa-play-circle" style="font-size: 48px; color: #29696e; margin-bottom: 20px;"></i>
+          <p><strong>Remember:</strong> Stay in front of the camera for the best experience.</p>
+        </div>
+        
+        <button class="button" onclick="startTherapy()" style="font-size: 20px; padding: 20px 40px;">Start Therapy Session</button>
+      </div>
+      
+    </div>
+    
+    <!-- Therapy Session Overlay -->
+    <div id="therapySession" class="therapy-session">
+      <!-- Background video -->
+      <video id="backgroundVideo" class="background-video" autoplay muted loop>
+        <source src="/static/videos/background_video.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+      
+      <!-- Frontend camera feed overlay -->
+      <video id="cameraFeed" style="position: absolute; bottom: 20px; right: 20px; width: 200px; height: 150px; border: 2px solid white; border-radius: 10px; z-index: 1001;" autoplay muted></video>
+      
+      <!-- Audio player -->
+      <audio id="therapyAudio" class="therapy-audio" loop>
+        <source id="audioSource" src="" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
+      
+      <div class="session-controls">
+        <button class="button" onclick="endTherapy()" style="background-color: #dc3545;">
+          <i class="fa-solid fa-stop"></i> End Session
+        </button>
+        <button class="button" onclick="toggleAudio()" id="audioToggle" style="background-color: #28a745;">
+          <i class="fa-solid fa-volume-up"></i> Audio On
+        </button>
+        <button class="button" onclick="toggleFullscreen()" id="fullscreenToggle" style="background-color: #6c757d;">
+          <i class="fa-solid fa-expand"></i> Fullscreen
+        </button>
+      </div>
+    </div>
+    
+    <!-- Backdrop overlay -->
+    <div id="therapyBackdrop" class="therapy-backdrop"></div>
+    {% include 'footer.html' %}
+    
+    <script>
+      // Simplified JavaScript for 3-step therapy process
+      let selectedAudio = null;
+
+      function handleFetchResponse(response) {
+        if (response.status === 401) {
+          window.location.href = '/google_login';
+          return Promise.reject('Unauthorized');
+        }
+        return response.json();
+      }
+      let cameraStream = null;
+      let sessionActive = false;
+      let frameCaptureInterval = null;
+      let videoElement = null;
+      
+      // Step 1: Audio Selection
+      function selectAudio(audioName) {
+        // Remove previous selections
+        document.querySelectorAll('.audio-option').forEach(option => {
+          option.classList.remove('selected');
+        });
+        
+        // Select current option
+        event.target.closest('.audio-option').classList.add('selected');
+        selectedAudio = audioName;
+        
+        // Enable next button
+        document.getElementById('nextBtn1').disabled = false;
+      }
+      
+      function proceedToStep2() {
+        if (!selectedAudio) return;
+        
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+      }
+      
+      // Step 2: Camera Setup
+      function enableCamera() {
+        showLoading();
+        
+        // Check if we're in a secure context (HTTPS)
+        if (!window.isSecureContext) {
+          alert('Camera access requires HTTPS. Please access this site via HTTPS.');
+          hideLoading();
+          return;
+        }
+        
+        // Check if getUserMedia is available
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert('Camera access is not supported in this browser. Please use a modern browser.');
+          hideLoading();
+          return;
+        }
+        
+        navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: 'user'
+          } 
+        })
+          .then(stream => {
+            cameraStream = stream;
+            
+            // Create a hidden video element for frame capture
+            videoElement = document.createElement('video');
+            videoElement.srcObject = stream;
+            videoElement.play();
+            videoElement.style.display = 'none';
+            document.body.appendChild(videoElement);
+            
+            document.getElementById('nextBtn2').disabled = false;
+            hideLoading();
+            console.log('Camera access granted successfully');
+          })
+          .catch(err => {
+            console.error('Camera access denied:', err);
+            let errorMessage = 'Camera access is required for emotion detection. ';
+            
+            if (err.name === 'NotAllowedError') {
+              errorMessage += 'Please allow camera access in your browser settings and try again.';
+            } else if (err.name === 'NotFoundError') {
+              errorMessage += 'No camera found. Please connect a camera and try again.';
+            } else if (err.name === 'NotReadableError') {
+              errorMessage += 'Camera is being used by another application. Please close other camera applications and try again.';
+            } else {
+              errorMessage += 'Please check your camera permissions and try again.';
+            }
+            
+            alert(errorMessage);
+            hideLoading();
+          });
+      }
+      
+      function proceedToStep3() {
+        if (!cameraStream) return;
+        
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step3').classList.add('active');
+      }
+      
+      // Step 3: Start Therapy
+      function startTherapy() {
+        if (!selectedAudio || !cameraStream) return;
+        
+        showLoading();
+        
+        // Start the therapy session
+        fetch('/start_session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            audio: selectedAudio
+          })
+        })
+        .then(handleFetchResponse)
+        .then(data => {
+          if (data.success) {
+            // Show backdrop and therapy session overlay
+            document.getElementById('therapyBackdrop').classList.add('active');
+            document.getElementById('therapySession').classList.add('active');
+            
+            // Set up audio
+            setupAudio(selectedAudio);
+            setupPitchShifter();
+            
+            // Start emotion detection (which includes the complete video feed)
+            startEmotionDetection();
+            
+            // Auto-enter fullscreen for immersive experience
+            setTimeout(() => {
+              toggleFullscreen();
+            }, 1000); // Small delay to ensure everything is loaded
+            
+            sessionActive = true;
+            hideLoading();
+          } else {
+            alert('Failed to start therapy session. Please try again.');
+            hideLoading();
+          }
+        })
+        .catch(err => {
+          console.error('Error starting session:', err);
+          alert('Error starting therapy session. Please try again.');
+          hideLoading();
+        });
+      }
+      
+      // Audio setup function
+      function setupAudio(audioFile) {
+        const audio = document.getElementById('therapyAudio');
+        const audioSource = document.getElementById('audioSource');
+        
+        // Set audio source based on selection
+        if (audioFile === 'tibetan.wav' || audioFile === 'om.wav' || audioFile === 'crystal.wav' || audioFile === 'marimba.wav' || audioFile === 'rain.wav') {
+          audioSource.src = `/static/audio/${audioFile}`;
+        } else {
+          // Custom audio - get from Firebase Storage
+          audioSource.src = getCustomAudioUrl(audioFile);
+        }
+        
+        // Add event listeners for audio
+        audio.addEventListener('canplay', function() {
+          console.log('Audio can play, attempting to start...');
+          audio.play().catch(e => {
+            console.log('Audio autoplay prevented:', e);
+            // Show user interaction required message
+            showAudioInteractionRequired();
+          });
+        });
+        
+        audio.addEventListener('error', function(e) {
+          console.error('Audio loading error:', e);
+          console.log('Audio file not found, continuing without audio...');
+        });
+        
+        audio.load();
+        console.log(`Loading audio: ${audioFile}`);
+      }
+      
+      // Pitch shifting: route the <audio> element through Tone.PitchShift so the
+      // track follows the solfeggio frequency mapped to the detected emotion
+      let pitchShifter = null;
+
+      function setupPitchShifter() {
+        if (typeof Tone === 'undefined') {
+          console.warn('Tone.js not loaded, pitch shifting disabled');
+          return;
+        }
+        const audio = document.getElementById('therapyAudio');
+        audio.crossOrigin = 'anonymous';
+        try {
+          const ctx = Tone.getContext().rawContext;
+          const source = ctx.createMediaElementSource(audio);
+          pitchShifter = new Tone.PitchShift({ pitch: 0, windowSize: 0.1 });
+          Tone.connect(source, pitchShifter);
+          pitchShifter.toDestination();
+          // AudioContext must be resumed from a user gesture (the Start button click)
+          Tone.start();
+        } catch (e) {
+          console.error('Pitch shifter setup failed:', e);
+          pitchShifter = null;
+        }
+      }
+
+      function applyPitchShift(semitones) {
+        if (!pitchShifter || typeof semitones !== 'number') return;
+        // PitchShift.pitch is a plain property; ease toward the target to avoid audible jumps
+        const step = 0.5;
+        const diff = semitones - pitchShifter.pitch;
+        pitchShifter.pitch = Math.abs(diff) <= step ? semitones : pitchShifter.pitch + Math.sign(diff) * step;
+        console.log(`Pitch shift: ${pitchShifter.pitch.toFixed(2)} st (target ${semitones.toFixed(2)})`);
+      }
+
+      // Get custom audio URL
+      function getCustomAudioUrl(audioFile) {
+        const userEmail = '{{ user_details.email }}';
+        return `https://firebasestorage.googleapis.com/v0/b/sonicserenity-a3083-3ed0b.firebasestorage.app/o/${encodeURIComponent(userEmail)}%2Fcustom_audio%2F${encodeURIComponent(audioFile)}?alt=media`;
+      }
+      
+      // Start emotion detection
+      function startEmotionDetection() {
+        // Start the therapy session backend
+        fetch('/begin_therapy', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(handleFetchResponse)
+        .then(data => {
+          if (data.success) {
+            console.log('Therapy session started');
+            // Set up the camera feed display
+            setupCameraDisplay();
+            // Start frame capture and sending
+            startFrameCapture();
+          } else {
+            console.error('Failed to start therapy session');
+          }
+        })
+        .catch(err => {
+          console.error('Error starting therapy session:', err);
+        });
+      }
+      
+      // Setup camera display
+      function setupCameraDisplay() {
+        const cameraFeed = document.getElementById('cameraFeed');
+        const backgroundVideo = document.getElementById('backgroundVideo');
+        
+        // Display the camera stream in the overlay
+        if (cameraStream) {
+          cameraFeed.srcObject = cameraStream;
+          cameraFeed.play();
+          console.log('Camera feed displayed in therapy session');
+        }
+        
+        // Start background video with error handling
+        backgroundVideo.addEventListener('canplay', function() {
+          console.log('Background video can play, attempting to start...');
+          backgroundVideo.play().catch(e => {
+            console.log('Background video autoplay prevented:', e);
+            // Continue without video if autoplay fails
+          });
+        });
+        
+        backgroundVideo.addEventListener('error', function(e) {
+          console.error('Background video loading error:', e);
+          console.log('Background video not found, continuing without video...');
+          // Show a fallback background or message
+          showVideoFallback();
+        });
+        
+        console.log('Background video setup complete');
+      }
+      
+      // Start frame capture and sending
+      function startFrameCapture() {
+        if (!cameraStream || !sessionActive) return;
+        
+        console.log('Starting frame capture...');
+        
+        // Capture and send frames every 1 second
+        frameCaptureInterval = setInterval(() => {
+          if (sessionActive && cameraFeed && cameraFeed.readyState === 4) {
+            captureAndSendFrame();
+          }
+        }, 1000);
+      }
+      
+      // Capture frame from camera feed and send to backend
+      function captureAndSendFrame() {
+        const cameraFeed = document.getElementById('cameraFeed');
+        if (!cameraFeed) return;
+        
+        try {
+          // Create canvas to capture frame
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // Set canvas size to match video
+          canvas.width = cameraFeed.videoWidth;
+          canvas.height = cameraFeed.videoHeight;
+          
+          // Draw current video frame to canvas
+          ctx.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+          
+          // Convert canvas to blob
+          canvas.toBlob((blob) => {
+            if (blob) {
+              sendFrameToBackend(blob);
+            }
+          }, 'image/jpeg', 0.8);
+          
+        } catch (error) {
+          console.error('Error capturing frame:', error);
+        }
+      }
+      
+      // Send frame to backend for processing
+      function sendFrameToBackend(frameBlob) {
+        const formData = new FormData();
+        formData.append('frame', frameBlob);
+        formData.append('timestamp', Date.now() / 1000);
+        
+        fetch('/process_frame', {
+          method: 'POST',
+          body: formData
+        })
+        .then(handleFetchResponse)
+        .then(data => {
+          if (data.success) {
+            console.log('Frame processed successfully');
+            // Optionally update UI with emotion data
+            if (data.emotions) {
+              updateEmotionDisplay(data.emotions);
+            }
+            applyPitchShift(data.semitones);
+          }
+        })
+        .catch(error => {
+          console.error('Error sending frame:', error);
+        });
+      }
+      
+      // Update emotion display (optional)
+      function updateEmotionDisplay(emotions) {
+        // This function can be used to display emotions in real-time
+        // For now, we'll just log them
+        console.log('Current emotions:', emotions);
+      }
+      
+      // Show audio interaction required message
+      function showAudioInteractionRequired() {
+        // Create a temporary overlay to prompt user interaction
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 20px;
+          border-radius: 10px;
+          z-index: 10000;
+          text-align: center;
+        `;
+        overlay.innerHTML = `
+          <h3>Audio Playback</h3>
+          <p>Click anywhere to start the therapeutic audio</p>
+          <button onclick="startAudioPlayback(); this.parentElement.remove();" style="padding: 10px 20px; margin-top: 10px; background: #29696e; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Start Audio
+          </button>
+        `;
+        document.body.appendChild(overlay);
+      }
+      
+      // Start audio playback after user interaction
+      function startAudioPlayback() {
+        const audio = document.getElementById('therapyAudio');
+        if (audio) {
+          audio.play().catch(e => console.log('Audio still prevented:', e));
+        }
+      }
+      
+      // Show video fallback
+      function showVideoFallback() {
+        const therapySession = document.getElementById('therapySession');
+        therapySession.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        therapySession.innerHTML += `
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; z-index: 1000;">
+            <h2>Therapy Session</h2>
+            <p>Background video not available, but therapy continues...</p>
+          </div>
+        `;
+      }
+      
+      // Toggle audio on/off
+      function toggleAudio() {
+        const audio = document.getElementById('therapyAudio');
+        const toggleBtn = document.getElementById('audioToggle');
+        
+        if (audio.paused) {
+          audio.play();
+          toggleBtn.innerHTML = '<i class="fa-solid fa-volume-up"></i> Audio On';
+          toggleBtn.style.backgroundColor = '#28a745';
+        } else {
+          audio.pause();
+          toggleBtn.innerHTML = '<i class="fa-solid fa-volume-mute"></i> Audio Off';
+          toggleBtn.style.backgroundColor = '#dc3545';
+        }
+      }
+      
+      // Toggle fullscreen
+      function toggleFullscreen() {
+        const therapySession = document.getElementById('therapySession');
+        const toggleBtn = document.getElementById('fullscreenToggle');
+        
+        if (!document.fullscreenElement) {
+          // Enter fullscreen
+          if (therapySession.requestFullscreen) {
+            therapySession.requestFullscreen();
+          } else if (therapySession.webkitRequestFullscreen) {
+            therapySession.webkitRequestFullscreen();
+          } else if (therapySession.msRequestFullscreen) {
+            therapySession.msRequestFullscreen();
+          }
+          toggleBtn.innerHTML = '<i class="fa-solid fa-compress"></i> Exit Fullscreen';
+          toggleBtn.style.backgroundColor = '#dc3545';
+        } else {
+          // Exit fullscreen
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+          toggleBtn.innerHTML = '<i class="fa-solid fa-expand"></i> Fullscreen';
+          toggleBtn.style.backgroundColor = '#6c757d';
+        }
+      }
+      
+      // End Therapy Session
+      function endTherapy() {
+        if (!sessionActive) return;
+        
+        showLoading();
+        
+        fetch('/end_session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(handleFetchResponse)
+        .then(data => {
+          // Stop camera stream
+          if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+          }
+          
+          // Stop frame capture
+          if (frameCaptureInterval) {
+            clearInterval(frameCaptureInterval);
+            frameCaptureInterval = null;
+          }
+          
+          // Clean up video elements
+          if (videoElement) {
+            videoElement.remove();
+            videoElement = null;
+          }
+          
+          // Hide therapy session and backdrop
+          document.getElementById('therapyBackdrop').classList.remove('active');
+          document.getElementById('therapySession').classList.remove('active');
+          sessionActive = false;
+          
+          // Show results or redirect
+          if (data.success) {
+            window.location.href = '/show_graph';
+          } else {
+            alert('Session ended. Data may not have been saved properly.');
+          }
+          
+          hideLoading();
+        })
+        .catch(err => {
+          console.error('Error ending session:', err);
+          hideLoading();
+        });
+      }
+      
+      // Utility functions
+      function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+      }
+      
+      function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+      }
+      
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check environment and show warnings if needed
+        checkEnvironment();
+        
+        // Check if we're returning from a session
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('step') === '2') {
+          document.getElementById('step1').classList.remove('active');
+          document.getElementById('step2').classList.add('active');
+        } else if (urlParams.get('step') === '3') {
+          document.getElementById('step1').classList.remove('active');
+          document.getElementById('step2').classList.remove('active');
+          document.getElementById('step3').classList.add('active');
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+          // F11 or F key for fullscreen toggle
+          if (e.key === 'F11' || (e.key === 'f' && e.ctrlKey)) {
+            e.preventDefault();
+            if (sessionActive) {
+              toggleFullscreen();
+            }
+          }
+          // Escape to exit fullscreen
+          if (e.key === 'Escape' && document.fullscreenElement) {
+            toggleFullscreen();
+          }
+        });
+      });
+      
+      // Check environment for camera access requirements
+      function checkEnvironment() {
+        const warnings = [];
+        
+        // Check HTTPS
+        if (!window.isSecureContext) {
+          warnings.push('⚠️ Camera access requires HTTPS. Please access this site via HTTPS.');
+        }
+        
+        // Check getUserMedia support
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          warnings.push('⚠️ Camera access is not supported in this browser. Please use a modern browser.');
+        }
+        
+        // Check if running on localhost (development)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          console.log('Running in development mode - camera access should work');
+        }
+        
+        // Show warnings if any
+        if (warnings.length > 0) {
+          console.warn('Environment warnings:', warnings);
+          // You can optionally show these warnings to the user
+        }
+      }
+    </script>
+  </body>
+</html>

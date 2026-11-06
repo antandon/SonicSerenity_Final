@@ -1,0 +1,73 @@
+<nav class="nav_">
+    <div class="logo_"><a href="{{url_for('index')}}"><img src="/static/images/Logo.png" /></a></div>
+    <div class="links_">
+        <a href="{{url_for('about_us')}}" >About Us</a>
+        <a href="{{url_for('approach')}}" >Our Approach</a>
+        <a href="{{url_for('services')}}" >Our Services</a>
+        <a href="{{url_for('therapists')}}" >Therapist</a>
+        <a href="{{url_for('sonic_sounds')}}" >SonicSounds</a>
+        <a href="{{url_for('faq')}}" >FAQ</a>
+        <a href="{{url_for('contact_us')}}" >Contact Us</a>
+      </div>
+    <div class="icons">
+      <!--Account section here-->
+      {% if not current_user.id %}
+        <div class="action">
+            <form action = "/login" method="post">
+                <input type="hidden" name="page" value="index"/>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+      {% else %}
+        <div class="action">
+          <button id="login_">Welcome, {{ current_user.username }} </button>
+          <form action="/l" method="POST">
+            <ul id="logout">
+              <li><button type="submit">Logout</button></li>
+            </ul>
+          </form>
+        </div>
+      {% endif %}
+    </div>
+  </nav>
+  <script>
+    console.log("{{current_user.id}}");
+    const accountButton = document.querySelector("#login_");
+  const accountDropdown = document.querySelector("#logout");
+
+  // Function to toggle dropdown visibility
+  function toggleDropdown() {
+    accountDropdown.classList.toggle("show");
+  }
+
+  // Event listener for account button click
+  accountButton.addEventListener("click", function (event) {
+    event.stopPropagation(); // Preventing click event from propagating to document
+    console.log("hello");
+    // Toggle dropdown visibility
+    toggleDropdown();
+  });
+
+  const btn = document.getElementById("login_");
+
+  btn.addEventListener("mouseover", function (event) {
+    event.stopPropagation(); // Preventing click event from propagating to document
+    console.log("hello");
+    // Toggle dropdown visibility
+    accountDropdown.classList.toggle("show_");
+  });
+  // btn.addEventListener("mouseout", function (event) {
+  //   event.stopPropagation();
+  //   accountDropdown.classList.remove("show_");
+  // });
+
+  // Close dropdown when clicking outside of it
+  document.addEventListener("click", function (event) {
+    if (
+      !accountDropdown.contains(event.target) &&
+      !accountButton.contains(event.target)
+    ) {
+      accountDropdown.classList.remove("show_");
+    }
+  });
+  </script>

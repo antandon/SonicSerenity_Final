@@ -1,0 +1,130 @@
+<!DOCTYPE html><!-- Last Published: Sun Feb 25 2024 22:58:09 GMT+0000 (Coordinated Universal Time) -->
+<html data-wf-domain="www.incadence.org" data-wf-page="5d80e079329a00db95704485" data-wf-site="5d80e079329a007369704428">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Who We Serve - Incadence Music Therapy</title>
+        <link rel="icon" href="/static/images/just_logo.png" type="image/x-icon"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <link href="https://assets-global.website-files.com/5d80e079329a007369704428/css/incadence.webflow.9540063aa.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+    .services_1, .services_2, .services_3{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(to right, white, #85dae0);
+        box-shadow: 3px 3px 7px #06a6ae;
+    }
+    .t1, .t2{
+        font-family: 'Dancing Script', cursive;
+        font-size: 36px;
+        font-weight: 900;
+    }
+    .content{
+        padding: 20px;
+        padding-left: 5px;
+    }
+    input[type=submit]{
+        background-color: #29696e;
+        color:white;
+        font-weight: 900;
+        font-size: 16px;
+        padding : 7px 15px;
+        border: none;
+        border-radius: 10px;
+    }
+    .footer-section li a{
+        text-decoration: none;
+        color: white;
+    }
+</style>
+<!-- End Facebook Pixel Code -->
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="page-wrapper">
+            <div data-w-id="bcd3d5fc-8502-735f-8afb-c3248a3d9f91" class="subpage-header services" style="background-image: url(''); background-size: cover;background-color: white;">
+                <div class="hero-overlay subpage-overlay" style="background-image: url('/static/images/about_us_extra3.png'); background-size: cover;">
+                    <div class="container w-container">
+                        <div class="hero-text-block centered">
+                            <h1 class="hero-main-title" style="margin-top: 120px;">Our Services</h1>
+                            <p class="hero-paragraph hide">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique</p>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container w-container">  
+                    <div class="services_1">                 
+                        <div  style="width: 100vw; padding-left: 20px;">
+                            <img src="/static/images/services_step1.png"/>
+                        </div> 
+                        <div style="width: 400px;">&nbsp;
+                            <img src="/static/images/bg_icon4.png" width="200"/>
+                        </div> 
+                        <div style="width: 100vw;" class="content">
+                            <h3 > 𝄞ervice 1</h3>
+                            <h3>Personalized Emotional Healing</h3>
+                            <p>At <b><i>Sonic Serenity</i></b>, music therapy services are crafted to analyze your emotions in real-time, enabling us to tailor each session to suit your individual emotional requirements. 
+                                We provide a diverse selection of pre-defined therapeutic tracks to accommodate various preferences. Additionally, we offer the option for you to upload your preferred therapeutic track. 
+                                <br><b><i>Sonic Serenity</i></b> with its innovation utilizes your choice of tracks to facilitate emotional healing and revitalization using solfeggio frequencies. We use electromagnetic tones that are reputed to have the power to heal and raise consciousness.
+                            </p>
+                            <span>To start your therapy session.</span>
+                            <form style="display: inline; margin-left: 20px;"  action = "/get_started" method = "POST" enctype = "multipart/form-data">
+                                <input type="submit"  value="Click Here">
+                            <!-- <a href="/who-we-serve" class="button cta-button w-button">Get Started</a> -->
+                            </form>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    <div class="services_2">                 
+                        <div  style="width: 100vw; padding-left: 20px;">
+                            <img src="/static/images/service_prod.png"/>
+                        </div> 
+                        <div style="width: 400px;">&nbsp;
+                            <img src="/static/images/bg_icon4.png" width="200"/>
+                        </div> 
+                        <div style="width: 100vw;" class="content">
+                            <h3 > 𝄞ervice 2</h3>
+                            <h3>Track your Progress</h3>
+                            <p>We offer you the unique advantage of tracking your progress made in all your 
+                                past music therapy sessions with us for up to  period of 3 months! </p>
+                            <form  action = "/get_started" method = "POST" enctype = "multipart/form-data">
+                                <input type="submit"  value="Track Progress">
+                            <!-- <a href="/who-we-serve" class="button cta-button w-button">Get Started</a> -->
+                            </form>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    <div class="services_3">                 
+                        <div  style="width: 100vw; padding-left: 20px;">
+                            <img src="/static/images/2.png"/>
+                        </div> 
+                        <div style="width: 400px;">&nbsp;
+                            <img src="/static/images/bg_icon4.png" width="200"/>
+                        </div> 
+                        <div style="width: 100vw;" class="content">
+                            <h3 > 𝄞ervice 3</h3>
+                            <h3>Therapist Connect</h3>
+                            <p>Sonic Serenity offers you the unique service of sharing your music therapy details with your music therapist. You just need to connect with them through your user login and they will be able to access the session records shared by you. It is an innovative solution which can help music therapists keep track of the progress being made by their clients with considerable ease. </p>
+                            <form  action = "/therapists" method = "POST" enctype = "multipart/form-data">
+                                <input type="submit"  value="Therapist Connect">
+                            <!-- <a href="/who-we-serve" class="button cta-button w-button">Get Started</a> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'footer.html' %}
+        </div>
+        <script>
+           
+        
+
+        </script>
+        <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5d80e079329a007369704428" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://assets-global.website-files.com/5d80e079329a007369704428/js/webflow.251cef853.js" type="text/javascript"></script>
+    </body>
+</html>

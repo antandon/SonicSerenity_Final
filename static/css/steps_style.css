@@ -1,0 +1,401 @@
+.therapy{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+*{
+    font-family: Karla,sans-serif;
+}
+
+/* Section 1 */
+
+.section1 {
+    position: relative;
+    left: 10%;
+    margin-top: 50px;
+    height: fit-content;
+}
+.step-1{
+    width: 100%;
+    margin-left: 20px;
+    position: absolute;
+    height: fit-content;
+    background-color: rgba(240, 248, 255, 0.767);
+    top: 5%;
+    right: 50%;
+    padding: 2%;
+    border-radius: 1%;
+    font-size: 1.2vw;
+}
+.songs{
+    width: 100%;
+    margin-left: 20px;
+}
+.songs p{
+    display: inline-block;
+    height: 20px;
+    width: 35%;
+    vertical-align: middle;
+    padding-top: 12px;
+    font-weight: 700;
+    text-wrap: pretty;
+}
+.songs span{
+    font-size: 14px;
+    color: #395e60;
+}
+.songs button{
+    background-color: #29696e;
+    color:white;
+    margin-left: 7%;
+    padding : 2px 20px;
+    border-radius: 10px;
+    border-color: #29696e;
+    /* margin-bottom: -50px; */
+}
+.songs .line{
+    border-top: #238c94 2px solid;
+    margin-top: 10px;
+    margin-right: 30px;
+}
+.songs input[type=submit]{
+    background-color: #29696e;
+    color:white;
+    margin-left: 18%;
+    padding : 7px 17px;
+    border-radius: 10px;
+    border-color: #29696e;
+    border-style: none;
+}
+.songs input[type=file]{
+    width: 293px;
+    border-color: #29696e;
+} 
+.songs button:hover, .songs input[type=submit]:hover{
+    background-color: #238c94;
+    color: black;
+}
+.step-1 h2{
+    font-family: "Dancing Script", cursive;
+}
+.step-1 p{
+    font-family: Karla,sans-serif;
+    font-weight: 500;
+    text-wrap: pretty;
+}
+.step1_bg{
+    border-radius: 20px;
+    overflow: hidden;
+    width: 40vw;
+    margin-bottom: 100px;
+    /* height:30vw; */
+}
+
+/* Section 2 */
+.section2 {
+    position: relative;
+    left: 10%;
+}
+.step-2{
+    width : 100%;
+    margin-left: 20px;
+    position: absolute;
+    background-color: rgba(240, 248, 255, 0.767);
+    top: 10%;
+    right: 50%;
+    padding: 2%;
+    border-radius: 1%;
+    font-size: 1.2vw;
+}
+.step-2 h2{
+    font-family: "Dancing Script", cursive;
+}
+.step-2 p{
+    font-family: Karla,sans-serif;
+    font-weight: 500;
+    text-wrap: pretty;
+}
+.step2_bg{
+    border-radius: 20px;
+    overflow: hidden;
+    width: 40vw;
+    height: 30vw;
+}
+.camera{
+    width: 80%;
+    margin-left: 20px;
+    margin-top: 0;
+    padding: 0;
+}
+.camera p{
+    display: inline-block;
+    height: 20px;
+    width: 30%;
+    vertical-align: middle;
+    padding-top: 12px;
+    font-weight: 700;
+    text-wrap: pretty;
+}
+.camera .button{
+    background-color: #29696e;
+    color:white;
+    margin-left: 12%;
+    padding : 7px 25px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #29696e;
+}
+.camera .button:hover{
+    background-color: #238c94;
+    color: black;
+    border-color: #238c94;
+}
+.step-2 h2{
+    font-family: "Dancing Script", cursive;
+}
+
+ /* Section 3 */
+.section3 {
+    left: 10%;
+}
+.step-3{
+    width: 100%;
+    margin-left: 20px;
+    position: absolute;
+    background-color: rgba(240, 248, 255, 0.767);
+    top: 10%;
+    right: 50%;
+    padding: 2%;
+    border-radius: 1%;
+    font-size: 1.2vw;
+}
+.step-3 h2{
+    font-family: "Dancing Script", cursive;
+}
+.step-3 p{
+    font-family: Karla,sans-serif;
+    font-weight: 500;
+    /* word-wrap: normal; */
+    margin-left: 20px;
+    text-wrap: pretty;
+}
+.step3_bg{
+    border-radius: 20px;
+    overflow: hidden;
+    width: 40vw;
+    height: 30vw;
+}
+.camera{
+    width: 80%;
+    margin-left: 20px;
+    margin-top: 0;
+}
+.camera p{
+    display: inline-block;
+    height: 20px;
+    width: 35%;
+    vertical-align: middle;
+    padding-top: 12px;
+    font-weight: 700;
+    text-wrap: pretty;
+}
+.camera .button{
+    background-color: #29696e;
+    color:white;
+    margin-left: 15%;
+    padding : 7px 25px;
+    border-radius: 10px;
+}
+.camera .button:hover{
+    background-color: #238c94;
+    color: black;
+}
+.step-3 h1{
+    font-family: "Dancing Script", cursive;
+}
+
+.therapy .section2, .therapy .section1, .therapy .section3, .therapy .section4{
+    position: relative;
+    width: 40%;
+    /* background-color: #bfad47; */
+}
+#vid{
+    display: none;
+    background-color: black;
+}
+#vid video{
+    position: relative;
+    width : 100%;
+    height: 100%;
+}
+#vid #rhs{
+    position: absolute;
+    display : inline-block;
+    right: 0px;
+    bottom : 0px;
+    width : 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-bottom: 5px;
+}
+#rhs .s{
+    background-color: white;
+    margin-left: 120px;
+    margin-bottom: 20px;
+    width: 30px;
+    height: 30px;
+}
+
+#vid img{
+    display: block;
+    width : 300px;
+    height: 200px;
+}
+#stop{
+    margin-top : 150px;
+}
+
+/* Section 4 */
+.section4 {
+    left: 10%;
+    margin-bottom: 50px;
+}
+.step-4{
+    width: 100%;
+    margin-left: 20px;
+    position: absolute;
+    background-color: #f0f8ffc4;
+    top: 15%;
+    right: 50%;
+    padding: 2%;
+    border-radius: 1%;
+    font-size: 1.2vw;
+}
+.step-4 h2{
+    font-family: "Dancing Script", cursive;
+}
+.step-4 p{
+    font-family: Karla,sans-serif;
+    font-weight: 500;
+    /* word-wrap: normal; */
+    margin-left: 20px;
+    text-wrap: pretty;
+}
+.step4_bg{
+    border-radius: 20px;
+    overflow: hidden;
+    width: 40vw;
+    height: 30vw;
+}
+.camera{
+    width: 80%;
+    margin-left: 20px;
+    margin-top: 0;
+}
+.camera p{
+    display: inline-block;
+    height: 20px;
+    width: 35%;
+    vertical-align: middle;
+    padding-top: 12px;
+    font-weight: 700;
+    text-wrap: pretty;
+}
+.camera .button{
+    background-color: #29696e;
+    color:white;
+    margin-left: 15%;
+    padding : 7px 25px;
+    border-radius: 10px;
+}
+.camera .button:hover{
+    background-color: #238c94;
+    color: black;
+}
+.step-4 h1{
+    font-family: "Dancing Script", cursive;
+}
+.footer-section li a{
+    text-decoration: none;
+    color: white;
+}
+
+.p_container{
+    display: none;
+}
+.p_container p{
+    height: 20px;
+    padding: 0;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.progress {
+    width: 60%;
+    height: 20px;
+    margin-top: 3px;
+    background-color: #c9e6e8;
+    border-radius: 20px;
+}
+  
+.progress_bar {
+    width: 0%;
+    border-radius: 20px;
+    height: 20px;
+    background-color: #20a8b1;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    color: white;
+    font-weight: 900;
+}
+
+.loading_container {
+    display: flex;
+    align-items: center;
+}
+  
+.dot_container {
+    display: inline-block;
+    margin-left: 5px; /* Adjust spacing as needed */
+}
+  
+.dot {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    background-color: black;
+    border-radius: 50%;
+    animation: bounce 2s infinite;
+    animation-delay: 0.3s; /* Delay for each dot */
+}
+  
+.dot:nth-child(1) {
+    animation-delay: 0s;  
+}
+  
+.dot:nth-child(2) {
+    animation-delay: 0.6s;
+}
+  
+.dot:nth-child(3) {
+    animation-delay: 0.9s;  
+}
+  
+@keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+      background-color: #59b4bb;
+    }
+    25%,75% {
+      transform: translateY(-5px);
+      background-color: #20a8b1;
+    }
+    50% {
+      transform: translateY(-1px);
+      background-color: #93bec1;
+    }
+} 

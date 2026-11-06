@@ -1,0 +1,100 @@
+# Core Web Framework
+Flask==3.1.0
+Flask-Login==0.6.3
+Flask-Mail==0.10.0
+Werkzeug==3.0.4
+Jinja2==3.1.4
+itsdangerous==2.2.0
+click==8.1.7
+blinker==1.8.2
+
+# AWS Integration  
+boto3==1.35.58
+botocore==1.35.58
+
+# Google/Firebase Integration
+firebase-admin==6.5.0
+google-api-core==2.20.0
+google-api-python-client==2.148.0
+google-auth==2.35.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+google-cloud-core==2.4.1
+google-cloud-firestore==2.18.0
+google-cloud-storage==2.18.2
+googleapis-common-protos==1.65.0
+
+# Computer Vision & Image Processing
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+pillow==10.4.0
+
+# Data Science & Machine Learning (Python 3.13 Compatible)
+numpy==2.1.3
+pandas==2.2.3
+scipy==1.14.1
+scikit-learn==1.5.2
+scikit-image==0.24.0
+
+# Audio Processing
+librosa==0.11.0
+soundfile==0.12.1
+audioread==3.0.1
+PyAudio==0.2.14
+
+# Visualization
+matplotlib==3.9.2
+bokeh==3.6.1
+seaborn==0.13.2
+
+# TensorFlow/Keras (EXPERIMENTAL Python 3.13 support)
+# WARNING: Official TensorFlow doesn't support Python 3.13 yet
+# Using tf-nightly as workaround - may be unstable
+tf-nightly==2.18.0.dev20241201
+# Alternative: Use TensorFlow 2.16.2 with Python 3.11/3.12 instead
+
+# Deep Learning Utilities  
+# Note: PyTorch doesn't support Python 3.13 yet
+# torch==2.4.1  # Commented out - not compatible with Python 3.13
+# torchvision==0.19.1  # Commented out - not compatible with Python 3.13
+
+# Environment & Configuration
+python-dotenv==1.0.1
+
+# HTTP & Networking
+requests==2.32.3
+urllib3==2.2.3
+certifi==2024.8.30
+charset-normalizer==3.4.0
+idna==3.10
+
+# Utilities
+tqdm==4.66.6
+packaging==24.1
+setuptools==75.3.0
+wheel==0.44.0
+
+# Face Detection & Recognition (if needed for fallback)
+mtcnn==1.0.0
+
+# Security
+cryptography==43.0.3
+pyOpenSSL==24.2.1
+
+# Date/Time handling
+python-dateutil==2.9.0.post0
+pytz==2024.2
+
+# File handling
+PyYAML==6.0.2
+
+# Process management (for production deployment)
+gunicorn==23.0.0
+
+# Development tools
+build==1.2.2
+pip==24.2
+
+# Optional: Alternative ML backends (if you want to avoid TensorFlow)
+# onnxruntime==1.19.2  # Alternative runtime for ONNX models
+# openvino==2024.4.0   # Intel OpenVINO for optimized inference

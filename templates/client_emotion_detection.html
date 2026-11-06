@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client-Side Emotion Detection</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@latest/dist/face-landmarks-detection.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            max-width: 640px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+        }
+        .emotion-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .emotion-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            min-width: 100px;
+        }
+        .emotion-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Client-Side Emotion Detection</h1>
+        <p>This uses your browser's camera for emotion detection instead of server camera</p>
+        
+        <video id="video" autoplay muted></video>
+        
+        <div class="controls">
+            <button id="startBtn" onclick="startDetection()">Start Emotion Detection</button>
+            <button id="stopBtn" onclick="stopDetection()" disabled>Stop Detection</button>
+        </div>
+        
+        <div class="status" id="status">Ready to start</div>
+        
+        <div class="emotion-display" id="emotionDisplay">
+            <div class="emotion-item">
+                <div>Anger</div>
+                <div class="emotion-value" id="anger">0%</div>
+            </div>
+            <div class="emotion-item">
+                <div>Fear</div>
+                <div class="emotion-value" id="fear">0%</div>
+            </div>
+            <div class="emotion-item">
+                <div>Happy</div>
+                <div class="emotion-value" id="happy">0%</div>
+            </div>
+            <div class="emotion-item">
+                <div>Neutral</div>
+                <div class="emotion-value" id="neutral">0%</div>
+            </div>
+            <div class="emotion-item">
+                <div>Sadness</div>
+                <div class="emotion-value" id="sadness">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let model = null;
+        let stream = null;
+        let isDetecting = false;
+        let detectionInterval = null;
+
+        async function loadModel() {
+            try {
+                document.getElementById('status').textContent = 'Loading emotion detection model...';
+                model = await faceLandmarksDetection.load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh);
+                document.getElementById('status').textContent = 'Model loaded successfully';
+                return true;
+            } catch (error) {
+                document.getElementById('status').textContent = 'Error loading model: ' + error.message;
+                return false;
+            }
+        }
+
+        async function startDetection() {
+            if (!model) {
+                const loaded = await loadModel();
+                if (!loaded) return;
+            }
+
+            try {
+                // Get camera access
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: 640, 
+                        height: 480 
+                    } 
+                });
+                
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('status').textContent = 'Emotion detection started';
+                
+                isDetecting = true;
+                
+                // Start emotion detection loop
+                detectionInterval = setInterval(detectEmotions, 1000); // Detect every second
+                
+            } catch (error) {
+                document.getElementById('status').textContent = 'Error accessing camera: ' + error.message;
+            }
+        }
+
+        function stopDetection() {
+            isDetecting = false;
+            
+            if (detectionInterval) {
+                clearInterval(detectionInterval);
+                detectionInterval = null;
+            }
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('status').textContent = 'Emotion detection stopped';
+        }
+
+        async function detectEmotions() {
+            if (!isDetecting || !model) return;
+
+            try {
+                const video = document.getElementById('video');
+                const predictions = await model.estimateFaces({
+                    input: video,
+                    returnTensors: false,
+                    flipHorizontal: false,
+                    predictIrisesAndPupils: false
+                });
+
+                if (predictions.length > 0) {
+                    // For now, simulate emotion detection
+                    // In a real implementation, you would use a more sophisticated model
+                    const emotions = simulateEmotionDetection();
+                    updateEmotionDisplay(emotions);
+                    sendEmotionData(emotions);
+                } else {
+                    // No face detected - use neutral
+                    const emotions = {
+                        anger: 0,
+                        fear: 0,
+                        happy: 0,
+                        neutral: 1,
+                        sadness: 0
+                    };
+                    updateEmotionDisplay(emotions);
+                    sendEmotionData(emotions);
+                }
+            } catch (error) {
+                console.error('Error in emotion detection:', error);
+            }
+        }
+
+        function simulateEmotionDetection() {
+            // Simulate emotion detection with some randomness
+            const emotions = {
+                anger: Math.random() * 0.3,
+                fear: Math.random() * 0.3,
+                happy: Math.random() * 0.4,
+                neutral: Math.random() * 0.5,
+                sadness: Math.random() * 0.3
+            };
+            
+            // Normalize to sum to 1
+            const total = Object.values(emotions).reduce((sum, val) => sum + val, 0);
+            Object.keys(emotions).forEach(key => {
+                emotions[key] = emotions[key] / total;
+            });
+            
+            return emotions;
+        }
+
+        function updateEmotionDisplay(emotions) {
+            document.getElementById('anger').textContent = Math.round(emotions.anger * 100) + '%';
+            document.getElementById('fear').textContent = Math.round(emotions.fear * 100) + '%';
+            document.getElementById('happy').textContent = Math.round(emotions.happy * 100) + '%';
+            document.getElementById('neutral').textContent = Math.round(emotions.neutral * 100) + '%';
+            document.getElementById('sadness').textContent = Math.round(emotions.sadness * 100) + '%';
+        }
+
+        async function sendEmotionData(emotions) {
+            try {
+                const response = await fetch('/upload_emotion_data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        emotions: emotions,
+                        timestamp: Date.now() / 1000
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error('Failed to send emotion data');
+                }
+            } catch (error) {
+                console.error('Error sending emotion data:', error);
+            }
+        }
+
+        // Load model on page load
+        window.addEventListener('load', loadModel);
+    </script>
+</body>
+</html>

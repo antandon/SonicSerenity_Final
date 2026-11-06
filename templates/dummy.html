@@ -1,0 +1,575 @@
+<html>
+  <head>
+    <title>SonicSerenity</title>
+    <link
+      href="https://assets-global.website-files.com/5d80e079329a007369704428/css/incadence.webflow.495033cb9.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Karla:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <!-- <div class="w-container">
+            <a href="/" aria-current="page" class="incadence-logo w-nav-brand w--current">
+                <img src="/static/images/Logo.png" width="177"  alt="" class="image"/>
+            </a>
+            <div class="menu-button w-nav-button">
+                <div class="w-icon-nav-menu"></div>
+            </div>
+            <a href="/get-started" class="button header-cta-link w-nav-link">Learn More</a>
+            <nav role="navigation" class="nav-menu w-nav-menu">
+                <div class="nav-link-wrapper">
+                    <a href="/about-us" class="nav-link w-nav-link">About Us</a>
+                    <a href="/faq" class="nav-link w-nav-link">FAQ</a>
+                    <a href="/contact" class="nav-link last w-nav-link">Contact Us</a>
+                    <a href="/who-we-serve" class="nav-link w-nav-link">Who We Serve</a>
+                    <a href="/blog" class="nav-link w-nav-link">Blog</a>
+                </div>
+            </nav>
+        </div> -->
+    <div
+      data-collapse="small"
+      data-animation="default"
+      data-duration="400"
+      data-easing="ease"
+      data-easing2="ease"
+      role="banner"
+      class="navbar w-nav"
+    >
+      <div class="w-container">
+        <a
+          href="/"
+          aria-current="page"
+          class="incadence-logo w-nav-brand w--current"
+        >
+          <img
+            src="/static/images/Logo.png"
+            width="177"
+            sizes="(max-width: 479px) 74vw, 177px"
+            alt=""
+            class="image"
+          />
+        </a>
+
+        <nav
+          role="navigation"
+          class="nav-menu w-nav-menu"
+          style="margin-top: -30px"
+        >
+          <div class="nav-link-wrapper">
+            <form action="http://localhost:5000/google_login" method="post">
+              <input type="hidden" name="page" value="steps" />
+              <a href="{{url_for('about_us')}}" class="nav-link w-nav-link"
+                >About Us</a
+              >
+              <a href="{{url_for('approach')}}" class="nav-link w-nav-link"
+                >Our Approach</a
+              >
+              <a href="{{url_for('services')}}" class="nav-link w-nav-link"
+                >Our Service</a
+              >
+              <a href="{{url_for('faq')}}" class="nav-link w-nav-link">FAQ</a>
+              <a
+                href="{{url_for('contact_us')}}"
+                class="nav-link last w-nav-link"
+                >Contact Us</a
+              >
+              <a href="#" class="nav-link w-nav-link">Blog</a>
+              {% if logged_in == "no" %}
+              <input
+                style="
+                  margin-left: 20px;
+                  margin-top: 0px;
+                  margin-bottom: 5px;
+                  padding-top: 7px;
+                  border-radius: 7px;
+                  padding-bottom: 7px;
+                  background-color: #29696e;
+                  color: white;
+                  border: none;
+                "
+                type="submit"
+                class="button"
+                value="Login"
+              />
+              {% else %}
+              <a
+                href="#"
+                onclick="show_logout()"
+                style="
+                  margin-left: 20px;
+                  margin-top: 0px;
+                  margin-bottom: 5px;
+                  padding-top: 7px;
+                  padding-bottom: 7px;
+                  padding-left: 20px;
+                  padding-right: 20px;
+                  background-color: #29696e;
+                  border-radius: 7px;
+                  color: white;
+                  border: none;
+                  text-decoration: none;
+                "
+                >Welcome, {{user_details["name"]}}</a
+              >
+              <!-- <img style="margin-top: -5px;  margin-left: 30px; border-radius: 20px;" src="" width="35px" height="35px"/> -->
+              {% endif %}
+              <div
+                class="logout"
+                style="
+                  display: none;
+                  background-color: white;
+                  border-radius: 10px;
+                  position: absolute;
+                  margin-top: 37px;
+                  margin-left: -185px;
+                  width: 200px;
+                  height: 50px;
+                "
+              >
+                <p
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                  "
+                >
+                  <a href="{{url_for('l')}}">
+                    <input
+                      style="
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        padding-top: 7px;
+                        border-radius: 7px;
+                        padding-bottom: 7px;
+                        background-color: #29696e;
+                        color: white;
+                        border: none;
+                        padding-left: 30px;
+                        padding-right: 30px;
+                      "
+                      type="button"
+                      value="Logout"
+                    />
+                  </a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div id="loading" style="display: none">
+      <center>
+        <img
+          style="width: 10%; height: 17%; margin-top: 20%"
+          src="/static/images/loading_gif.gif"
+          alt="Loading..."
+        />
+      </center>
+    </div>
+    <div class="therapy">
+      <div class="section1">
+        <div class="step1_bg">
+          <img src="/static/images/bg.png" />
+        </div>
+        <div class="step-1">
+          <h2>𝄞tep 1</h2>
+          <p>
+            Here are the some well researched options of therapeutic music to
+            help you pick one that you find appealing
+          </p>
+          <div class="songs">
+            <div>
+              <img src="/static/images/audio_logo.png" width="20" height="20" />
+              <p>&nbsp;&nbsp;Tibetan.wav</p>
+              <img src="/static/images/wave.png" width="100" height="40" />
+              <button id="s_t" onclick="set_audio('tibetan.wav', 's_t')">
+                Select
+              </button>
+            </div>
+            <span>Tibetan Healing Sounds Singing Bowls</span>
+            <div>
+              <img src="/static/images/audio_logo.png" width="20" height="20" />
+              <p>&nbsp;&nbsp;Om Chanting.wav</p>
+              <img src="/static/images/wave.png" width="100" height="40" />
+              <button id="s_o" onclick="set_audio('om.wav', 's_o')">
+                Select
+              </button>
+            </div>
+            <span
+              >OM Chanting Mantra Healing Heart Chakra Activation Chant</span
+            >
+            <div>
+              <img src="/static/images/audio_logo.png" width="20" height="20" />
+              <p>&nbsp;&nbsp;Custom File</p>
+              <img src="/static/images/wave.png" width="100" height="40" />
+              <form
+                action="/upload"
+                method="post"
+                onsubmit="handleUpload()"
+                enctype="multipart/form-data"
+              >
+                <span
+                  >Please Upload a Theraputic Instrumental Track of Your
+                  Choice</span
+                ><br />
+                <input
+                  type="file"
+                  id="audioFile"
+                  name="audio_file"
+                  accept=".mp3, .wav, .ogg"
+                />
+                <input id="up" type="submit" value="Upload" />
+              </form>
+            </div>
+            <form
+              id="load_a"
+              style="display: nonw"
+              action="/load"
+              method="post"
+              onsubmit="handleUpload()"
+              enctype="multipart/form-data"
+            >
+              <input id="a_name" type="hidden" name="audio" />
+              <input id="i" type="hidden" name="id" />
+              <input type="submit" value="Upload" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <br /><br /><br />
+
+      <div class="section2">
+        <div class="step2_bg">
+          <img src="/static/images/step2_bg.png" />
+        </div>
+        <div class="step-2">
+          <h2>𝄞tep 2</h2>
+          <p>
+            Turn on your camera
+            <big
+              ><big><big>📷</big></big></big
+            >
+          </p>
+          <div class="camera">
+            <form
+              action="http://localhost:5000/turn_camera_on"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <input
+                type="hidden"
+                id="audio_name"
+                name="audio_name"
+                value="g"
+              />
+              <input type="submit" id="cam" class="button" value="Turn On" />
+              <!-- <a href="/who-we-serve" class="button cta-button w-button">Get Started</a> -->
+            </form>
+          </div>
+          <p>
+            Sonic Serenity - your AI Music Therapist - will dynamically
+            personalise your choice of song for your emotional wellbeing and
+            mental health based on your emotions.
+          </p>
+        </div>
+      </div>
+
+      <br /><br /><br />
+
+      <div class="section3">
+        <div class="step3_bg">
+          <img src="/static/images/step3_bg.jpg" />
+        </div>
+        <div class="step-3">
+          <h1>𝄞tep 3</h1>
+          <br />
+          <p>
+            Please click on the play button below. Put on your ear phones or
+            just play the music on your speakers but remember to stay in the
+            camera frame for the therapy to work!
+          </p>
+          <div class="camera">
+            <form
+              action="http://localhost:5000/turn_audio_on"
+              onsubmit="something()"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <input id="pl" type="submit" class="button" value="Play" />
+            </form>
+            <!-- <button onclick="something()">fdshds</button> -->
+          </div>
+          <br />
+          <!-- <p>Sonic Serenity uses solfeggio frequencies which are a set of 9 electromagnetic tones that are reputed to have the power to heal and raise consciousness. They form the basis of many ancient sacred music traditions dating back as far as the 8th century, such as the Gregorian chants and Indian Sanskrit chants. At the heart of solfeggio frequencies is the belief that the vibrational signature of certain sounds, ranging from 174 Hz to 963 Hz, can positively impact our mental, physical and spiritual health. For example, the 417Hz frequency can help remove negative energy from your aura and environment, can heal shame and anger based thinking. Both of these emotions are conducive to attracting negative outcomes and can aid in restful sleep
+                    </p> -->
+        </div>
+      </div>
+
+      <br /><br /><br />
+
+      <div class="section4">
+        <div class="step4_bg">
+          <img src="/static/images/services_step2_track_graph.png" />
+        </div>
+        <div class="step-4">
+          <h1>𝄞tep 4</h1>
+          <br />
+          <p>Track your Progress throughout the session.</p>
+          <div class="camera">
+            <form
+              id="graph"
+              action="http://localhost:5000/show_graph"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <input id="gr" type="submit" class="button" value="Show Graph" />
+            </form>
+          </div>
+          <br />
+          <!-- <p>Sonic Serenity uses solfeggio frequencies which are a set of 9 electromagnetic tones that are reputed to have the power to heal and raise consciousness. They form the basis of many ancient sacred music traditions dating back as far as the 8th century, such as the Gregorian chants and Indian Sanskrit chants. At the heart of solfeggio frequencies is the belief that the vibrational signature of certain sounds, ranging from 174 Hz to 963 Hz, can positively impact our mental, physical and spiritual health. For example, the 417Hz frequency can help remove negative energy from your aura and environment, can heal shame and anger based thinking. Both of these emotions are conducive to attracting negative outcomes and can aid in restful sleep
+                    </p> -->
+        </div>
+      </div>
+    </div>
+    <div
+      class="footer-section section"
+      style="background-color: black; height: 25vw; padding: 50px"
+    >
+      <div style="display: flex; width: 100%; justify-content: center">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+          "
+        >
+          <img src="/static/images/headphones.png" width="90" height="70" />
+          <div>
+            <h5 style="text-align: center">Healing Starts Here!</h5>
+          </div>
+        </div>
+        <div style="margin-left: 25vw; display: flex">
+          <div>
+            <h6 style="margin-left: 40px">Our Services</h6>
+            <ul type="none">
+              <li>
+                <a href="{{url_for('services')}}"
+                  >Personalized Emotional Healing</a
+                >
+              </li>
+              <li><a href="{{url_for('services')}}">Track your Progress</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6 style="margin-left: 40px">Resources</h6>
+            <ul type="none">
+              <li><a href="{{url_for('faq')}}">FAQ</a></li>
+              <li><a href="{{url_for('services')}}">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        style="width: 93%; height: 1px; background-color: white; margin: 30px"
+      >
+        &nbsp;
+      </div>
+      <div style="display: flex; justify-content: space-between">
+        <div class="bottom-footer-block">
+          <div class="copyright-text">Copyright © Incadence</div>
+        </div>
+        <div>
+          <img
+            src="/static/images/logo_footer.png"
+            width="200px"
+            height="50px"
+          />
+        </div>
+      </div>
+    </div>
+    <div id="vid">
+      <video id="v" autoplay muted loop>
+        <source src="/static/videos/soothing.mp4" type="video/mp4" />
+      </video>
+      <div id="rhs">
+        <form
+          id="graph"
+          action="http://localhost:5000/stop_audio"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input
+            class="s"
+            type="submit"
+            class="button"
+            value=""
+            style="
+              background-image: url('/static/images/stop_button.png');
+              background-repeat: no-repeat;
+              background-size: contain;
+              background-position: center;
+              width: 50px;
+              height: 50px;
+              border-radius: 30px;
+            "
+          />
+        </form>
+        <!-- <div  onclick="stop_btn()" ></div>       -->
+        <img src="{{ url_for('video_feed') }}" />
+      </div>
+    </div>
+    <script>
+      var data = "{{step}}";
+      var idi = "{{id}}";
+      if (data == "") {
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("s_t").disabled = false;
+          document.getElementById("s_o").disabled = false;
+          document.getElementById("up").disabled = false;
+          document.getElementById("cam").disabled = true;
+          document.getElementById("pl").disabled = true;
+          document.getElementById("gr,").disabled = true;
+        });
+      }
+      if (data == "1") {
+        document.addEventListener("DOMContentLoaded", function () {
+          const element = document.getElementsByClassName("section1")[0];
+          element.scrollIntoView({ block: "center" });
+          document.getElementById(idi).innerHTML = "Selected";
+          document.getElementById(idi).style.marginLeft = "10%";
+          document.getElementById(idi).style.backgroundColor = "#238c94";
+          setTimeout(function () {
+            const el = document.getElementsByClassName("section2")[0];
+            el.scrollIntoView({ block: "center", behavior: "smooth" });
+            document.getElementById("s_t").disabled = true;
+            document.getElementById("s_o").disabled = true;
+            document.getElementById("up").disabled = true;
+            document.getElementById("cam").disabled = false;
+            document.getElementById("pl").disabled = true;
+            document.getElementById("gr,").disabled = true;
+          }, 1000);
+        });
+      }
+      if (data == "2") {
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("cam").value = "Camera On 📸";
+          const element = document.getElementsByClassName("section2")[0];
+          element.scrollIntoView({ block: "center" });
+          setTimeout(function () {
+            const el = document.getElementsByClassName("section3")[0];
+            el.scrollIntoView({ block: "center", behavior: "smooth" });
+            document.getElementById("s_t").disabled = true;
+            document.getElementById("s_o").disabled = true;
+            document.getElementById("up").disabled = true;
+            document.getElementById("cam").disabled = true;
+            document.getElementById("pl").disabled = false;
+            document.getElementById("gr,").disabled = true;
+          }, 1000);
+        });
+      }
+      if (data == "3") {
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("vid").style.display = "block";
+          const el = document.getElementsByClassName("therapy")[0];
+          el.style.display = "none";
+          document.getElementsByClassName("footer-section")[0].style.display =
+            "none";
+          document.getElementsByClassName("w-container")[0].style.display =
+            "none";
+          document.getElementById("s_t").disabled = true;
+          document.getElementById("s_o").disabled = true;
+          document.getElementById("up").disabled = true;
+          document.getElementById("cam").disabled = true;
+          document.getElementById("pl").disabled = true;
+          document.getElementById("gr,").disabled = false;
+        });
+      }
+      if (data == "4") {
+        stop_btn();
+      }
+
+      var a = true;
+      function show_logout() {
+        if (a == true) {
+          document.getElementsByClassName("logout")[0].style.display =
+            "inline-block";
+          a = false;
+        } else {
+          document.getElementsByClassName("logout")[0].style.display = "none";
+          a = true;
+        }
+      }
+
+      function set_audio(name, id) {
+        document.getElementById("audio_name").value = name;
+        document.getElementById("a_name").value = name;
+        document.getElementById("i").value = id;
+        document.getElementById(id).innerHTML = "Selected";
+        document.getElementById(id).style.marginLeft = "10%";
+        document.getElementById(id).style.backgroundColor = "#238c94";
+        document.getElementById("load_a").submit();
+        setTimeout(function () {
+          const el = document.getElementsByClassName("section2")[0];
+          el.scrollIntoView({ block: "center", behavior: "smooth" });
+        }, 1000);
+      }
+
+      function something() {
+        console.log("in");
+        var loading = document.getElementById("loading");
+        loading.style.display = "block";
+        document.getElementsByClassName("w-container")[0].style.display =
+          "none";
+        document.getElementsByClassName("therapy")[0].style.display = "none";
+        document.getElementsByClassName("footer-section")[0].style.display =
+          "none";
+        setTimeout(function () {
+          document.getElementById("vid").style.display = "block";
+          const el = document.getElementsByClassName("therapy")[0];
+          el.style.display = "none";
+          loading.style.display = "none";
+          document.getElementsByClassName("w-container")[0].style.display =
+            "none";
+        }, 7000);
+      }
+
+      function stop_btn() {
+        setTimeout(function () {
+          document.getElementById("vid").style.display = "none";
+          const el = document.getElementsByClassName("therapy")[0];
+          el.style.display = "flex";
+          document.getElementsByClassName("w-container")[0].style.display =
+            "block";
+          document.getElementsByClassName("footer-section")[0].style.display =
+            "block";
+          const eli = document.getElementsByClassName("section4")[0];
+          eli.scrollIntoView({ block: "center", behavior: "smooth" });
+        }, 1000);
+      }
+
+      function handleUpload() {
+        var inputElement = document.getElementById("audioFile");
+        var uploadedFile = inputElement.files[0];
+
+        if (uploadedFile) {
+          var fileName = uploadedFile.name;
+          console.log(fileName);
+          set_audio(fileName);
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html><!-- Last Published: Sun Feb 25 2024 22:58:09 GMT+0000 (Coordinated Universal Time) -->
+<html data-wf-domain="www.incadence.org" data-wf-page="5d80e079329a00db95704485" data-wf-site="5d80e079329a007369704428">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Who We Serve - Incadence Music Therapy</title>
+		<link rel="icon" href="/static/images/just_logo.png" type="image/x-icon"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <link href="https://assets-global.website-files.com/5d80e079329a007369704428/css/incadence.webflow.9540063aa.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="/static/css/style.css">
+		<!-- Use Bokeh 3.8.0 to match backend version -->
+		<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.8.0.min.js"></script>
+	<style>
+
+		.footer-section li a{
+        text-decoration: none;
+        color: white;
+    }
+	
+	</style>
+</head> 
+
+<body> 
+	{% include 'navbar.html' %}
+	<div class="page-wrapper">
+		<div data-w-id="bcd3d5fc-8502-735f-8afb-c3248a3d9f91" class="subpage-header services" style="background-image: url(''); background-size: cover;background-color: white;">
+			<div class="hero-overlay subpage-overlay" style="background-image: url('/static/images/services_step2_track_graph.png'); background-size: cover;">
+				<div class="container w-container">
+					<div class="hero-text-block centered">
+						<h1 class="hero-main-title" style="padding-top: 100px;">Track Your Progress</h1>
+						<p class="hero-paragraph hide">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique</p>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section">
+			<div class="container w-container" style="margin-top: -50px; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+				<h5>Sonic Serenity tracks the progress you have made during your music therapy session!</h5>
+				<br>
+				<h3>Session Performance</h3>
+				<br>
+				{% if message %}
+					<div style="text-align: center; padding: 20px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; margin: 20px 0;">
+						<p style="color: #6c757d; font-size: 16px;">{{ message }}</p>
+					</div>
+				{% else %}
+					<!-- Emotion Graph -->
+					<div style="background-color: white; padding: 20px; margin: 20px 0; border: 2px solid #29696e; border-radius: 10px; position: relative; z-index: 10;">
+						<h4>Emotion Analysis</h4>
+						<div id="emotion-graph-container">
+							{{ div | safe }} 
+						</div>
+					</div>
+					<br>
+					
+					<!-- Frequency Graph -->
+					<div style="background-color: white; padding: 20px; margin: 20px 0; border: 2px solid #29696e; border-radius: 10px; position: relative; z-index: 10;">
+						<h4>Frequency Analysis</h4>
+						<div id="frequency-graph-container">
+							{{ di | safe }} 
+						</div>
+					</div>
+				{% endif %}
+				<br>
+				<br>
+				<div>
+					<button style="padding: 10px 20px; background-color: #29696e; color:white;">
+						<a href="{{url_for('therapists')}}" style="text-decoration: none; color: white;">Share Session with Therapist</a>
+					</button>
+				</div>
+			</div>
+		</div>
+		{% include 'footer.html' %}
+	</div>
+    <!-- Load Bokeh scripts directly -->
+    {{ script | safe }}
+    {{ sc | safe }}
+    
+</body> 
+
+</html>

@@ -1,0 +1,110 @@
+
+
+<html>
+    <head>
+        <style>
+            .progress-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+}
+
+.progress-bar {
+  width: 0%;
+  border-radius: 20px;
+  height: 20px;
+  background-color: #20a8b1;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  /* padding-top: -10px; */
+  color: white;
+  font-weight: 900;
+}
+.loading_container {
+  display: flex;
+  align-items: center;
+}
+
+.dot_container{
+  display: inline-block;
+  margin-left: 5px; 
+}
+
+.dot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background-color: #93bec1;
+  border-radius: 50%;
+  animation: bounce 2s infinite;
+  animation-delay: 0.3s; 
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+  
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.6s;
+  /* background-color: #5caab0; */
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.9s;
+  
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+    background-color: #93bec1;
+  }
+  25%,75% {
+    transform: translateY(-5px);
+    background-color: #20a8b1;
+  }
+  50% {
+    transform: translateY(-1px);
+    background-color: #93bec1;
+  }
+}
+
+        </style>
+    </head>
+    <body>
+        <div class="progress-container">
+            <div class="progress-bar" id="myBar"></div>
+          </div>    
+          <p class="loading-container">
+            <span>Uploading</span>
+            <span class="dot-container">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </span>
+        </p>
+                
+        <script>
+function move() {
+  var elem = document.getElementById("myBar");
+  var width = 1;
+  var intervalId = setInterval(frame, 40000 / 100); // Progress for 1 minute
+
+  function frame() {
+    if (width >= 100) {
+      clearInterval(intervalId);
+    } else {
+      width++;
+      elem.style.width = width + "%";
+      elem.innerHTML = width + "%";
+    }
+  }
+}
+
+move();
+
+        </script>
+    </body>
+</html>

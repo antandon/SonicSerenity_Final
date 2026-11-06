@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonicSerenity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        *{
+			font-family: "Merriweather", serif;
+		}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 30px;
+            background-color: rgb(231, 231, 231);
+        }
+
+        .container {
+            padding: 50px 0px;
+            width: 500px;
+            background-color: rgba(240, 248, 255, 0.767);
+            /* background-image:linear-gradient(to right, #ffffff,#e6f2f3, #b2ecf0, #56e2ec , #2db3bd) ; */
+            box-shadow: 8px 8px 20px rgb(128, 128, 128);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn {
+            height: 60px;
+            width: 300px;
+            margin: 20px auto;
+            box-shadow: 5px 5px 10px rgb(66, 156, 184);
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .login, .signup {
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            outline: none;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slider {
+            height: 60px;
+            width: 150px;
+            margin-top: 50px;
+            border-radius: 50px;
+            background-image: linear-gradient(to right, #238c94, #29696e);
+            position: absolute;
+            top: 20px;
+            left: 100px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .moveslider {
+            left: 250px;
+        }
+
+        .form-section {
+            height: 200px;
+            width: 1000px;
+            padding: 20px 0;
+            display: flex;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+            left: 0px;
+        }
+
+        .form-section-move {
+            left: -500px;
+        }
+
+        .login-box,
+        .signup-box {
+            height: 100%;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0px 40px;
+        }
+
+        .login-box {
+            gap: 50px;
+        }
+
+        .signup-box {
+            gap: 30px;
+        }
+
+        .clkbtn {
+            height: 60px;
+            padding: 10px 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            /* background-image: linear-gradient(to right,#3cacb4,#2b8289); */
+            font-size: 18px;
+            font-weight: bold;
+            border: ridge 5px #2b8289;
+            cursor: pointer;
+        }
+
+        /* For Responsiveness of the page */
+
+        @media screen and (max-width: 650px) {
+            .container {
+                padding: 50px;
+                width: 300px;
+            }
+
+            .btn {
+                height: 50px;
+                width: 200px;
+                margin: 20px auto;
+            }
+
+            .login,
+            .signup {
+                font-size: 19px;
+            }
+
+            .slider {
+                height: 50px;
+                width: 100px;
+                left: 50px;
+            }
+
+            .moveslider {
+                left: 150px;
+            }
+
+            .form-section {
+                height: 500px;
+                width: 600px;
+            }
+
+            .form-section-move {
+                left: -300px;
+            }
+
+            .login-box,
+            .signup-box {
+                height: 100%;
+                width: 300px;
+            }
+
+            .clkbtn {
+                height: 50px;
+               padding: 10px;
+                font-size: 19px;
+            }
+        }
+
+        @media screen and (max-width: 320px) {
+            .container {
+                padding: 50px;
+                width: 250px;
+            }
+
+            .btn {
+                height: 50px;
+                width: 200px;
+                margin: 20px auto;
+            }
+
+            .login,
+            .signup {
+                font-size: 19px;
+            }
+
+            .slider {
+                height: 50px;
+                width: 100px;
+                left: 27px;
+            }
+
+            .moveslider {
+                left: 127px;
+            }
+
+            .form-section {
+                height: 500px;
+                width: 500px;
+            }
+
+            .form-section-move {
+                left: -250px;
+            }
+
+            .login-box,
+            .signup-box {
+                height: 100%;
+                width: 250px;
+            }
+
+            .clkbtn {
+                height: 50px;
+                padding: 10px;
+                font-size: 19px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- container div -->
+    <div class="container">
+
+        <!-- upper button section to select
+             the login or signup form -->
+        <div class="slider"></div>
+        <div class="btn">
+            <button class="login">User</button>
+            <button class="signup">Therapist</button>
+        </div>
+
+        <!-- Form section that contains the
+             login and the signup form -->
+        <div class="form-section">
+
+            <!-- login form -->
+            <div class="login-box">
+                <form action="/google_login" method="post">
+                    <input type="hidden" name="type" value="users"/>
+                    <button class="clkbtn" type="submit">
+                        <img src="/static/images/google_logo.png" width="30" height="30" style="margin-right: 10px;">
+                        <span> Continue with Google</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- signup form -->
+            <div class="signup-box">
+                <form action="/google_login" method="post">
+                    <input type="hidden" name="type" value="therapists"/>
+                    <button class="clkbtn" type="submit">
+                        <img src="/static/images/google_logo.png" width="30" height="30" style="margin-right: 10px;">
+                        <span> Continue with Google</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        let signup = document.querySelector(".signup");
+        let login = document.querySelector(".login");
+        let slider = document.querySelector(".slider");
+        let formSection = document.querySelector(".form-section");
+
+        signup.addEventListener("click", () => {
+            slider.classList.add("moveslider");
+            formSection.classList.add("form-section-move");
+        });
+
+        login.addEventListener("click", () => {
+            slider.classList.remove("moveslider");
+            formSection.classList.remove("form-section-move");
+        });
+
+    </script>
+</body>
+</html>

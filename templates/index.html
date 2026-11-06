@@ -1,0 +1,129 @@
+<!DOCTYPE html><!-- Last Published: Fri Dec 22 2023 20:31:36 GMT+0000 (Coordinated Universal Time) -->
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>SonicSerenity</title>
+        <link rel="icon" href="/static/images/just_logo.png" type="image/x-icon"/>
+        <link href="https://assets-global.website-files.com/5d80e079329a007369704428/css/incadence.webflow.9540063aa.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <style>
+            
+            .checklist-block{
+                background-image:linear-gradient(to right, #ffffff,#ffda0742 , #ffda0767) ;
+                padding: 50px 10px;
+                margin-left: 20px;
+            }
+            .checklist-i{
+                background-image: url("/static/images/music_icon.png");
+                background-position: 0%;
+                background-repeat: no-repeat;
+                background-size: 20px;
+                font-size: 18px;
+                padding: 17px;
+                padding-left: 40px;
+                border-bottom: 2px solid rgba(241, 239, 237, 0.251);
+            }
+            .checklist-block {
+                opacity: 0;
+                transform: translateX(20px);
+                transition: opacity 2s ease, transform 2s ease;
+                background-image:linear-gradient(to right, #ffffff,#e6f2f3, #b2ecf0, #56e2ec , #2db3bd) ;
+            }
+
+            .checklist-block.show {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .footer-section li a{
+                text-decoration: none;
+                color: white;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        {% include 'navbar.html' %}
+
+        <div class="page-wrapper_">
+            <div class="hero-section_">
+                <div class="hero-overlay_" style="background-image: url('/static/images/home_page.png');">
+                    <div class="container_" style="padding-top: 100px;">
+                        <div class="hero-text-block_">
+                            <h2 class="hero-main-title_">Discover the transformative power of music therapy <br/></h2>
+                            <p class="hero-paragraph_ home_">
+                                Sonic Serenity’s innovative technology makes the healing benefits of music accessible to individuals of all ages, fostering emotional and mental well-being. <br/>
+                            </p>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container_ w-container">
+                    <div class="flex-row w-row">
+                        <div class="text-column-left w-col w-col-6">
+                            <div class="title-wrapper">
+                                <h2 class="section-title">Our Approach to Music Therapy</h2>
+                            </div>
+                            <p class="paragraph">As Albert Einstein famously stated,<strong><i> "everything in our Universe is vibration."</i></strong> From the atoms within our bodies to the thoughts and sounds around us, all things are in motion, vibrating. Different musical notes too arise from sound waves vibrating at specific frequencies. 
+                                <br><br>At Sonic Serenity, we harness the power of <strong><i>‘Solfeggio frequencies’</i></strong> which date back to the 10th century, each possessing unique properties capable of promoting physical, emotional, and spiritual well-being. Utilized in various forms of sound therapy, these frequencies are integrated into meditation and energy healing practices, and we tailor them to meet the needs of our users.</p>
+                        </div>
+                        <div class="checklist-column-right w-col w-col-6">
+                            <div class="checklist-block">
+                                <ul role="list" class="checklist w-list-unstyled">
+                                    <li class="checklist-i">Music helps <strong>process emotions</strong></li>
+                                    <li class="checklist-i"><strong>Reduces</strong> stress and anxiety</li>
+                                    <li class="checklist-i">Aids <strong>coping</strong> with challenges</li>
+                                    <li class="checklist-i">Helps <strong>navigates relationships</strong></li>
+                                    <li class="checklist-i"><strong>Increases</strong> productivity</li>
+                                    <li class="checklist-i">And More!</li>
+                                </ul>
+                                <br>
+                                <div class="small-cta-title">Ready to embark on a journey of music therapy with us?</div>
+                                <div class="cta-button-wrapper">
+                                    <div class="small-cta-title"></div>
+                                    <form  action = "/get_started" method = "POST" enctype = "multipart/form-data" style="float: right;">
+                                        <input type="hidden" name="page" value="index"/>
+                                        <input type="submit" class="button cta-button w-button" style="background-color:#29696e; border: none; border-radius: 5px;" value="Get Started">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'footer.html' %}
+        </div>
+        <script>
+            var log = "{{logged_in}}"
+            // if(log == "yes"){
+            //     document.getElementById("nav").style.marginTop = "-30px";
+            // }
+            var a = true;
+            var animatedSection = document.getElementsByClassName("checklist-block")[0];
+            function isElementInViewport(el) {
+                var rect = el.getBoundingClientRect();
+                var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+                
+                return (
+                (rect.bottom >= 0 &&
+                rect.top <= windowHeight / 1.2) 
+                );
+            }
+            function handleScroll() {
+                console.log("in");
+                console.log(isElementInViewport(animatedSection));
+                if (isElementInViewport(animatedSection)) {
+                    animatedSection.classList.add("show");
+                    // window.removeEventListener("scroll", handleScroll);
+                }
+            }
+            window.addEventListener("scroll", handleScroll);
+
+        </script>
+    </body>
+</html>
